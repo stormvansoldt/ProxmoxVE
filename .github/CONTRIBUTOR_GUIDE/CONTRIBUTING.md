@@ -46,14 +46,14 @@ Before contributing, please ensure that you have the following setup:
 
 # 🚀 The Application Script (ct/AppName.sh)
 
-- You can find all Coding standards, as well as the structure for this files [here](/ct/AppName.md).
+- You can find all Coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/ct/AppName.md).
 - These Scripts are responsible for Container creataion, setting the necessery varibles and handels the update of the Application.
 
 ---
 
 # 🛠 The Installation Script (install/AppName-install.sh)
 
-- You can find all Coding standards, as well as the structure for this files [here](/install/AppName-install.md).
+- You can find all Coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.md).
 - These Scripts handel the installation of the Application.
 
 ---
