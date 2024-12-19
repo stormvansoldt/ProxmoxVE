@@ -1,8 +1,32 @@
 
 # Community Scripts Contribution Guide
 
-## Overview
-Welcome to the community-scripts repository! This guide provides detailed instructions on how to contribute to the project, including code structure, best practices, and setup instructions for contributing to our repository.
+## **Welcome to the communty-scripts Repository!** 
+📜 These documents outlines the essential coding standards for all our scripts and JSON files. Adhering to these standards ensures that our codebase remains consistent, readable, and maintainable. By following these guidelines, we can improve collaboration, reduce errors, and enhance the overall quality of our project.
+
+### Why Coding Standards Matter
+
+Coding standards are crucial for several reasons:
+
+1. **Consistency**: Consistent code is easier to read, understand, and maintain. It helps new team members quickly get up to speed and reduces the learning curve.
+2. **Readability**: Clear and well-structured code is easier to debug and extend. It allows developers to quickly identify and fix issues.
+3. **Maintainability**: Code that follows a standard structure is easier to refactor and update. It ensures that changes can be made with minimal risk of introducing new bugs.
+4. **Collaboration**: When everyone follows the same standards, it becomes easier to collaborate on code. It reduces friction and misunderstandings during code reviews and merges.
+
+### Scope of These Documents
+
+These documentes covers the coding standards for the following types of files in our project:
+
+- **`APP-install.sh` Scripts**: These scripts are responsible for the installation of applications and are located in the `/install` directory.
+- **`APP.sh` Scripts**: These scripts handle the creation and updating of containers and are found in the `/ct` directory.
+- **JSON Files**: These files store structured data and are located in the `/json` directory.
+
+Each section provides detailed guidelines on various aspects of coding, including shebang usage, comments, variable naming, function naming, indentation, error handling, command substitution, quoting, script structure, and logging. Additionally, examples are provided to illustrate the application of these standards.
+
+By following the coding standards outlined in this document, we ensure that our scripts and JSON files are of high quality, making our project more robust and easier to manage. Please refer to this guide whenever you create or update scripts and JSON files to maintain a high standard of code quality across the project. 📚🔍
+
+Let's work together to keep our codebase clean, efficient, and maintainable! 💪🚀
+
 
 ## Getting Started
 
@@ -20,342 +44,17 @@ Before contributing, please ensure that you have the following setup:
 
 ---
 
-# 🚀 Structure of Installation Scripts (ct/AppName.sh)
+# 🚀 The Application Script (ct/AppName.sh)
 
-All installation scripts should follow this standard structure:
-
-## 1. 📝 File Header
-
-```bash
-#!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
-# Copyright (c) 2021-2024 community-scripts ORG
-# Author: [YourUserName]
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-# Source: [SOURCE_URL]
-```
-
-> **Note**: 
-> - Add your username and source URL
-> - For existing scripts, add "| Co-Author [YourUserName]" after the current author
-
-## 2. 🔧 App Default Values
-
-```bash
-# App Default Values
-APP="[APP_NAME]"
-TAGS="[TAGS]"
-var_cpu="[CPU]"
-var_ram="[RAM]"
-var_disk="[DISKSIZE]"
-var_os="[OS]"
-var_version="[VERSION]"
-var_unprivileged="[UNPRIVILEGED]"
-```
-
-### Value Declarations 📊
-
-| Variable | Description | Notes |
-|----------|-------------|-------|
-| `APP` | Application name | Must match ct\AppName.sh |
-| `TAGS` | Proxmox display tags | Limit the number |
-| `var_cpu` | CPU cores | Number of cores |
-| `var_ram` | RAM | In MB |
-| `var_disk` | Disk capacity | In GB |
-| `var_os` | Operating system | alpine, debian, ubuntu |
-| `var_version` | OS version | e.g., 3.20, 11, 12, 20.04 |
-| `var_unprivileged` | Container type | 1 = Unprivileged, 0 = Privileged |
-
-### Default Values 🔨
-
-- `TAGS="community-script"` (default)
-- `var_cpu="1"`
-- `var_ram="1024"`
-- `var_disk="4"`
-- `var_unprivileged="1"`
-- `var_verbose="no"`
-
-#### Example 🌟
-
-```bash
-# App Default Values
-APP="Google"
-TAGS="searching;website"
-var_cpu="2"
-var_ram="4096"
-var_disk="10"
-var_os="debian"
-var_version="12"
-var_unprivileged="0"
-```
-
-> Creates a privileged LXC named "google" with 2 CPU cores, 4096 MB RAM, 10 GB disk, on Debian 12
-
-## 3. 📋 App Output & Base Settings
-
-```bash
-# App Output & Base Settings
-header_info "$APP"
-base_settings
-```
-
-- `header_info`: Generates ASCII header for APP
-- `base_settings`: Allows overwriting variable values
-
-## 4. 🛠 Core Functions
-
-```bash
-# Core
-variables
-color
-catch_errors
-```
-
-- `variables`: Processes input and prepares variables
-- `color`: Sets icons, colors, and formatting
-- `catch_errors`: Enables error handling
-
-## 5. 🔄 Update-Script Part
-
-```bash
-function update_script() {
-    header_info
-    check_container_storage
-    check_container_resources
-
-    # Update-Code
-}
-```
-
-- `header_info`: Regenerates ASCII AppName
-- `check_container_storage`: Checks available storage
-- `check_container_resources`: Validates CPU/RAM resources
-
-```bash
-# Check if installation is present | -f for file, -d for folder
-    if [[ ! -f [INSTALLATION_CHECK_PATH] ]]; then
-        msg_error "No ${APP} Installation Found!"
-        exit
-    fi
-```
-
-> **Note**: 
-> - First you need to check if the APP is installed in the LXC
-> - Replace ```INSTALLATION_CHECK_PATH``` with the path to the APP ```i.e. (/opt/app)```
-
-```bash
-    # Crawling the new version and checking whether an update is required
-    RELEASE=$(curl -fsSL [RELEASE_URL] | [PARSE_RELEASE_COMMAND])
-    if [[ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ]] || [[ ! -f /opt/${APP}_version.txt ]]; then
-
-    # Code to update the APP
-
-    else
-        msg_ok "No update required. ${APP} is already at v${RELEASE}"
-    fi
-    exit
-```
-
-> **Note**: 
-> - Crawl for the newest version. Example for Github Releases:
-> - ```RELEASE=$(curl -s https://api.github.com/repos/USER/REPO/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')```
-> - Then check if updating is required.
-
-```bash
-     # Stopping Services
-        msg_info "Stopping $APP"
-        systemctl stop [SERVICE_NAME]
-        msg_ok "Stopped $APP"
-
-        # Creating Backup
-        msg_info "Creating Backup"
-        tar -czf "/opt/${APP}_backup_$(date +%F).tar.gz" [IMPORTANT_PATHS]
-        msg_ok "Backup Created"
-
-        # Execute Update
-        msg_info "Updating $APP to v${RELEASE}"
-        [UPDATE_COMMANDS]
-        msg_ok "Updated $APP to v${RELEASE}"
-
-        # Starting Services
-        msg_info "Starting $APP"
-        systemctl start [SERVICE_NAME]
-        sleep 2
-        msg_ok "Started $APP"
-
-        # Cleaning up
-        msg_info "Cleaning Up"
-        rm -rf [TEMP_FILES]
-        msg_ok "Cleanup Completed"
-
-        # Last Action
-        echo "${RELEASE}" >/opt/${APP}_version.txt
-        msg_ok "Update Successful"
-```
-
-> **Note**: 
-> - In the IF-Block you then write the code to update the APP, Start and Stop the Services and clean up any temporary files
-
-## 6. 🏁 Script-End
-
-```bash
-start
-build_container
-description
-
-msg_ok "Completed Successfully!\n"
-echo -e "${CREATING}${GN}${APP} setup has been successfully initialized!${CL}"
-echo -e "${INFO}${YW} Access it using the following URL:${CL}"
-echo -e "${TAB}${GATEWAY}${BGN}http://${IP}:[PORT]${CL}"
-```
-
-- `start`: Launches Whiptail dialogue
-- `build_container`: Collects and integrates user settings
-- `description`: Sets LXC container description
+- You can find all Coding standards, as well as the structure for this files [here](.github/CONTRIBUTIR_GUIDE/ct/AppName.md).
+- These Scripts are responsible for Container creataion, setting the necessery varibles and handels the update of the Application.
 
 ---
 
-# 🛠 Structure of Installation Scripts (install/AppName-install.sh)
+# 🛠 The Installation Script (install/AppName-install.sh)
 
-## 1. 📄 File Header
-
-```bash
-#!/usr/bin/env bash
-
-# Copyright (c) 2021-2024 community-scripts ORG
-# Author: [YourUserName]
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-```
-
-> **Notes**: 
-> - Add your username
-> - For existing scripts, add "| Co-Author [YourUserName]"
-
-## 2. 🔌 Import Functions and Setup
-
-```bash
-source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
-color
-verb_ip6
-catch_errors
-setting_up_container
-network_check
-update_os
-```
-
-## 3. 📦 Standard Dependencies
-
-```bash
-msg_info "Installing Dependencies"
-$STD apt-get install -y \
-  curl \
-  sudo \
-  mc 
-msg_ok "Installed Dependencies"
-```
-
-## 4. 📝 File Writing Conventions
-
-### Writing Config Files 🔧
-
-```bash
-cat <<EOF >/etc/systemd/system/${APPLICATION}.service
-[Unit]
-Description=${APPLICATION} Service Description
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/path/to/executable
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-```
-
-### Writing Environment Files 🌍
-
-```bash
-cat <<EOF >/path/to/.env
-VARIABLE="value"
-PORT=3000
-DB_NAME="${DB_NAME}"
-EOF
-```
-
-## 5. 🚦 Service Management
-
-```bash
-systemctl enable -q --now service.service
-```
-
-## 6. 🧹 Cleanup Section
-
-```bash
-msg_info "Cleaning up"
-$STD apt-get -y autoremove
-$STD apt-get -y autoclean
-msg_ok "Cleaned"
-```
-
-## 7. 📢 Progress Messages
-
-```bash
-msg_info "Setup ${APPLICATION}"
-$STD some_command
-msg_ok "Setup ${APPLICATION}"
-```
-
-## 8. 🏷️ Version Tracking
-
-```bash
-echo "${RELEASE}" >"/opt/${APPLICATION}_version.txt"
-```
-
-## 9. 🔐 Credentials Management
-
-```bash
-USERNAME=username
-PASSWORD=$(openssl rand -base64 18 | tr -dc 'a-zA-Z0-9' | head -c13)
-{
-    echo "Application-Credentials"
-    echo "Username: $USERNAME"
-    echo "Password: $PASSWORD"
-} >> ~/application.creds
-```
-- Use random generated Passwords if possible
-
-## 10. 📂 Directory Structure
-
-- Application files: `/opt/application_name/`
-- Configuration files: `/etc/application_name/`
-- Data files: `/var/lib/application_name/`
-
-## 11. 🚨 Error Handling
-
-```bash
-catch_errors
-```
-
-## 12. 🏁 Final Setup
-
-```bash
-motd_ssh
-customize
-```
-
----
-
-## 📋 Best Practices
-
-1. Use `$STD` for suppressed command output
-2. Use uppercase for global variables
-3. Quote variables with potential spaces
-4. Use `-q` for quiet operations
-5. Use 2-space indentation
-6. Include cleanup sections
-7. Use descriptive message strings
+- You can find all Coding standards, as well as the structure for this files [here](.github/CONTRIBUTIR_GUIDE/install/AppName-install.md).
+- These Scripts handel the installation of the Application.
 
 ---
 
@@ -403,3 +102,6 @@ Open a PR from your feature branch to the main repository branch
 - [Function-Overview](https://github.com/community-scripts/ProxmoxVE/wiki/Function_Overview)
 - [CT Template: AppName.sh](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/ct/AppName.sh)
 - [Install Template: AppName-install.sh](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.sh)
+
+---
+
