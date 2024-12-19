@@ -7,7 +7,7 @@ source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/m
 
 # App Default Values
 APP="[APP_NAME]"
-TAGS="[TAGS]"
+var_tags="[TAGS]"
 var_cpu="[CPU]"
 var_ram="[RAM]"
 var_disk="[DISK]"
