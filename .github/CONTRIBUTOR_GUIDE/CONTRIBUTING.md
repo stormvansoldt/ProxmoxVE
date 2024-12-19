@@ -60,7 +60,7 @@ Before contributing, please ensure that you have the following setup:
 
 ## 🚀 Building Your Own Scripts
 
-Start with the [template script](https://github.com/community-scripts/ProxmoxVE/blob/main/docs/templates/example-install.sh)
+Start with the [template script](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.sh)
 
 ---
 
@@ -102,6 +102,7 @@ Open a PR from your feature branch to the main repository branch
 - [Function-Overview](https://github.com/community-scripts/ProxmoxVE/wiki/Function_Overview)
 - [CT Template: AppName.sh](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/ct/AppName.sh)
 - [Install Template: AppName-install.sh](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.sh)
+- [JSON Template: AppName.json](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/json/AppName.json)
 
 ---
 
