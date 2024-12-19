@@ -54,7 +54,7 @@ Before contributing, please ensure that you have the following setup:
 # 🛠 The Installation Script (install/AppName-install.sh)
 
 - You can find all Coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.md).
-- These Scripts handel the installation of the Application.
+- These Scripts are responsible for the installation of the Application.
 
 ---
 

@@ -1,11 +1,11 @@
 
 # **AppName<span></span>-install.sh Scripts**
- `AppName-install.sh` scripts found in the `/install` directory. These scripts are responsible for the installation of the desired Application. For this guide we take `/install/snipeit-install.sh` as example.
+ `AppName-install.sh` scripts found in the `/install` directory. These scripts are responsible for the installation of the Application. For this guide we take `/install/snipeit-install.sh` as example.
 
 ## 1. **File Header**
 
 ### 1.1 **Shebang**
-- Use `#!/usr/bin/env bash` as the shebang for portability across systems.
+- Use `#!/usr/bin/env bash` as the shebang.
 
 ```bash
 #!/usr/bin/env bash
@@ -24,7 +24,7 @@ Example:
 ```
 > [!NOTE]: 
 > - Add your username
-> - For existing scripts, add "| Co-Author [YourUserName]"
+> - When updating/reworking scripts, add "| Co-Author [YourUserName]"
 
 ### 1.3 **Variables and Function import**
 - This sections adds the support for all needed functions and variables.
@@ -50,15 +50,6 @@ Example:
 DB_NAME=snipeit_db    # Environment-like variable (constant)
 db_user="snipeit"     # Local variable
 ```
-
-### 2.2 **Avoid Hardcoding Values**
-- Dynamically generate sensitive values, like passwords, using tools like `openssl`.
-
-Example:
-```bash
-DB_PASS=$(openssl rand -base64 18 | tr -dc 'a-zA-Z0-9' | head -c13)
-```
-
 ---
 
 ## 3. **Dependencies**
@@ -89,21 +80,26 @@ instead of
 ```bash
 php8.2-bcmath php8.2-common php8.2-ctype
 ```
+
 ---
+
 ## 4. **Paths to applications**
 - If possible install the App and all nessesery files in `/opt/`
+
+---
 
 ## 5. **Version Management**
 
 ### 5.1 **Install the latest Release**
 - Always try and install the latest Release if possibly
-- Do not Hardcode any Version if not absolutly nessesery
+- Do not hardcode any version if not absolutly nessesery
 
 Example for a git Release:
 ```bash
 RELEASE=$(curl -s https://api.github.com/repos/snipe/snipe-it/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 wget -q "https://github.com/snipe/snipe-it/archive/refs/tags/v${RELEASE}.zip"
 ```
+
 ### 5.2 **Store the Version in a File for later Updates**
 - Write the installed Version into a file.
 - This is used for the Update function in app.sh to check if we need to update or not
@@ -112,6 +108,7 @@ Example:
 ```bash
 echo "${RELEASE}" >"/opt/${APPLICATION}_version.txt"
 ```
+---
 
 ## 6. **Input and Output Management**
 
@@ -139,6 +136,7 @@ Example:
 $STD apt-get install -y nginx
 ```
 
+---
 
 ## 7. **String/File Manipulation**
 
@@ -213,7 +211,7 @@ DB_NAME="${DB_NAME}"
 EOF
 ```
 
-### 9.4 **Reload Services**
+### 9.4 **Services**
 - Enable affected services after configuration changes and start it right away.
 
 Example:
@@ -241,14 +239,6 @@ Example:
 apt-get -y autoremove
 apt-get -y autoclean
 ```
-
----
-
-## 11. **Consistency and Style**
-
-### 11.1 **Indentation**
-- Use 2 spaces for indentation for better readability.
-- Use the Shell Formater Extention for VS-Code
 
 ---
 

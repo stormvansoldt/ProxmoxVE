@@ -5,7 +5,7 @@
 ## 1. **File Header**
 
 ### 1.1 **Shebang**
-- Use `#!/usr/bin/env bash` as the shebang for portability across systems.
+- Use `#!/usr/bin/env bash` as the shebang.
 
 ```bash
 #!/usr/bin/env bash
@@ -15,7 +15,7 @@
 - When developing your own Script, change the link to your own repository.
 
 > [!CAUTION]
-> Before opening a Pull Request change the link to point to the community-scripts repo.
+> Before opening a Pull Request, change the link to point to the community-scripts repo.
 
 Example for development:
 ```bash
@@ -45,8 +45,8 @@ Example:
 ---
 
 ## 2 **Variables and Function import**
-> [!IMPORTANT]
-> You need to have all this set in Your Script, otherwise it will not work!
+> [!NOTE]
+> You need to have all this set in your Script, otherwise it will not work!
 
 ### 2.1 **Default Values**
 - This sections sets the Default Values for the Container.
@@ -107,7 +107,7 @@ catch_errors
 ## 3 **Update Function**
 
 ### 3.1 **Function Header**
-- if applicable write a function wich updates the Application and the OS in the container.
+- If applicable write a function wich updates the Application and the OS in the container.
 - Each update function starts with a standardised Header:
 ```bash
 function update_script() {
@@ -127,7 +127,7 @@ if [[ ! -d /opt/snipe-it ]]; then
   fi
 ```
 ### 3.3 **Check Version**
-- The last step befor the update is to check if ther is a new version. 
+- Befor updating, check if a new Version exists. 
 - For this we use the `${APPLICATION}_version.txt` file created in `/opt` during the install.
 
 Example with a Github Release:
@@ -135,7 +135,7 @@ Example with a Github Release:
  RELEASE=$(curl -s https://api.github.com/repos/snipe/snipe-it/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
   if [[ ! -f /opt/${APP}_version.txt ]] || [[ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ]]; then
     msg_info "Updating ${APP} to v${RELEASE}"
-    #DO UPDATE STUFF
+    #DO UPDATE
   else
     msg_ok "No update required. ${APP} is already at v${RELEASE}."
   fi
@@ -149,7 +149,7 @@ Example:
 wget -q
 unzip -q
 ```
-- If a command dose not come with such a functionality use `&>/dev/null` for suppresinf output verbosity.
+- If a command dose not come with such a functionality use `&>/dev/null` to suppress its output.
 
 Example:
 ```bash
@@ -160,7 +160,7 @@ php artisan config:clear &>/dev/null
 ### 3.5 **Backups**
 - Backup userdata if nessesary.
 - Move all userdata back in the Directory when the update is finnished.
->[!WARNING]
+>[!NOTE]
 >This is not meant to be a permantent backup
 
 Example backup:
@@ -198,6 +198,8 @@ function update_script() {
 }
 ```
 
+---
+
 ## 4 **End of the Script**
 - `start`: Launches Whiptail dialogue
 - `build_container`: Collects and integrates user settings
@@ -215,6 +217,7 @@ echo -e "${INFO}${YW} Access it using the following URL:${CL}"
 echo -e "${TAB}${GATEWAY}${BGN}http://${IP}${CL}"
 ```
 ---
+
 ## 5. **Best Practices Checklist**
 
 - [ ] Shebang is correctly set (`#!/usr/bin/env bash`).
