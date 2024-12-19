@@ -79,8 +79,8 @@ git clone https://github.com/yourUserName/ForkName
 git switch -c your-feature-branch
 ```
 
-### 4. Change Paths in build.func and install.func
-you need to switch "community-scripts/ProxmoxVE" to "yourUserName/ForkName" 
+### 4. Change Paths in build.func install.func and AppName.sh
+You need to switch `https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main` to `https://raw.githubusercontent.com/[USER]/[REPOSITORY]/refs/head/[BRANCH]` to test your script in your repository. Befor opening a Pull Request change all this back to point to the community-scripts Repository.
 
 ### 4. Commit Changes (without build.func and install.func!)
 ```bash
