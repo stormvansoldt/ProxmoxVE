@@ -96,7 +96,7 @@ php8.2-bcmath php8.2-common php8.2-ctype
 
 Example for a git Release:
 ```bash
-RELEASE=$(curl -s https://api.github.com/repos/snipe/snipe-it/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
+RELEASE=$(curl -fsSL https://api.github.com/repos/snipe/snipe-it/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 wget -q "https://github.com/snipe/snipe-it/archive/refs/tags/v${RELEASE}.zip"
 ```
 
