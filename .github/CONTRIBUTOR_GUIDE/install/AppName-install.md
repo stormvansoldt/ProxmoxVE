@@ -106,7 +106,7 @@ wget -q "https://github.com/snipe/snipe-it/archive/refs/tags/v${RELEASE}.zip"
 
 Example:
 ```bash
-echo "${RELEASE}" >"/opt/${APPLICATION}_version.txt"
+echo "${RELEASE}" >"/opt/AppName_version.txt"
 ```
 ---
 
