@@ -93,7 +93,7 @@ git push origin your-feature-branch
 ```
 
 ### 6. Create a Pull Request
-Open a PR from your feature branch to the main repository branch. You may only include your AppName.sh, AppName-instal.sh and AppName.json files in the pull request.
+Open a PR from your feature branch to the main repository branch. You may only include your **AppName.sh**, **AppName-install.sh** and **AppName.json** files in the pull request.
 
 ---
 
