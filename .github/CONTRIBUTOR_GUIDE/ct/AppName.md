@@ -58,7 +58,7 @@ Example:
 >| Variable | Description | Notes |
 >|----------|-------------|-------|
 >| `APP` | Application name | Must match ct\AppName.sh |
->| `TAGS` | Proxmox display tags | Limit the number |
+>| `TAGS` | Proxmox display tags without Spaces, only ; | Limit the number |  
 >| `var_cpu` | CPU cores | Number of cores |
 >| `var_ram` | RAM | In MB |
 >| `var_disk` | Disk capacity | In GB |
