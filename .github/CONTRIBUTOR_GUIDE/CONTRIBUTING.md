@@ -15,7 +15,7 @@ Coding standards are crucial for several reasons:
 
 ### Scope of These Documents
 
-These documentes covers the coding standards for the following types of files in our project:
+These documents covers the coding standards for the following types of files in our project:
 
 - **`APP-install.sh` Scripts**: These scripts are responsible for the installation of applications and are located in the `/install` directory.
 - **`APP.sh` Scripts**: These scripts handle the creation and updating of containers and are found in the `/ct` directory.
@@ -33,7 +33,7 @@ Let's work together to keep our codebase clean, efficient, and maintainable! �
 Before contributing, please ensure that you have the following setup:
 
 1. **Visual Studio Code** (recommended for script development)
-2. **Necessary VS Code Extensions:**
+2. **Recommended VS Code Extensions:**
    - [Shell Syntax](https://marketplace.visualstudio.com/items?itemName=bmalehorn.shell-syntax)
    - [ShellCheck](https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck)
    - [Shell Format](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
@@ -46,15 +46,15 @@ Before contributing, please ensure that you have the following setup:
 
 # 🚀 The Application Script (ct/AppName.sh)
 
-- You can find all Coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/ct/AppName.md).
-- These Scripts are responsible for Container creataion, setting the necessery varibles and handels the update of the Application.
+- You can find all coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/ct/AppName.md).
+- These Scripts are responsible for container creation, setting the necessary variables and handles the update of the application.
 
 ---
 
 # 🛠 The Installation Script (install/AppName-install.sh)
 
-- You can find all Coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.md).
-- These Scripts are responsible for the installation of the Application.
+- You can find all coding standards, as well as the structure for this files [here](https://github.com/community-scripts/ProxmoxVE/blob/contributor_guide/.github/CONTRIBUTOR_GUIDE/install/AppName-install.md).
+- These scripts are responsible for the installation of the application.
 
 ---
 
@@ -80,7 +80,7 @@ git switch -c your-feature-branch
 ```
 
 ### 4. Change Paths in build.func install.func and AppName.sh
-You need to switch `https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main` to `https://raw.githubusercontent.com/[USER]/[REPOSITORY]/refs/head/[BRANCH]` to test your script in your repository. Befor opening a Pull Request change all this back to point to the community-scripts Repository.
+You need to switch `https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main` to `https://raw.githubusercontent.com/[USER]/[REPOSITORY]/refs/head/[BRANCH]` to test your script in your repository. Before opening a Pull Request change all this back to point to the community-scripts Repository.
 
 ### 4. Commit Changes (without build.func and install.func!)
 ```bash
