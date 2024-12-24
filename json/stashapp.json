@@ -1,26 +1,26 @@
 {
-    "name": "AppName",
-    "slug": "appname",
+    "name": "StashApp",
+    "slug": "stashapp",
     "categories": [
-        0
+        12
     ],
-    "date_created": "DATE CREATED",
+    "date_created": "2024-12-23",
     "type": "ct",
     "updateable": true,
     "privileged": false,
     "interface_port": 9999,
-    "documentation": null,
-    "website": "LINK TO WEBSITE",
-    "logo": "LINK TO LOGO",
+    "documentation": "https://docs.stashapp.cc/getting-started/first-steps/",
+    "website": "https://stashapp.cc/",
+    "logo": "https://raw.githubusercontent.com/stashapp/Stash-Docs/refs/heads/main/favicon.ico",
     "description": "Deescription of the app",
     "install_methods": [
         {
             "type": "default",
-            "script": "ct/AppName.sh",
+            "script": "ct/stashapp.sh",
             "resources": {
-                "cpu": 2,
+                "cpu": 1,
                 "ram": 2048,
-                "hdd": 4,
+                "hdd": 8,
                 "os": "debian",
                 "version": "12"
             }
