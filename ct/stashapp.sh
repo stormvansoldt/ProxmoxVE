@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+# shellcheck disable=SC1090
 source <(curl -s https://raw.githubusercontent.com/stormvansoldt/ProxmoxVE/refs/heads/stashapp/misc/build.func)
 # Copyright (c) 2021-2024 community-scripts ORG
 # Author: stormvansoldt
@@ -7,21 +8,21 @@ source <(curl -s https://raw.githubusercontent.com/stormvansoldt/ProxmoxVE/refs/
 # Source: [SOURCE_URL]
 
 # App Default Values
-APP="Stash"
+APP="[APP_NAME]"
 # Name of the App (e.g. Google, Adventurelog, Apache-Guacamole"
-TAGS="media"
+TAGS="[TAGS]"
 # Tags for Proxmox VE, maximum 2 pcs., no spaces allowed, separated by a semicolon ; (e.g. database | adblock;dhcp) 
-var_cpu="2"
+var_cpu="[CPU]"
 # Number of Cores (1-X) (e.g. 4) - default are 2
-var_ram="2048"
+var_ram="[RAM]"
 # Amount of used RAM in MB (e.g. 2048 or 4096)
-var_disk="8"
+var_disk="[DISK]"
 # Amount of used Disk Space in GB (e.g. 4 or 10)
-var_os="debian"
+var_os="[OS]"
 # Default OS (e.g. debian, ubuntu, alpine)
-var_version="12"
+var_version="[VERSION]"
 # Default OS version (e.g. 12 for debian, 24.04 for ubuntu, 3.20 for alpine)
-var_unprivileged="1"
+var_unprivileged="[UNPRIVILEGED]"
 # 1 = unprivileged Container, 0 = privileged Container
 
 # App Output & Base Settings
@@ -39,44 +40,46 @@ function update_script() {
     check_container_resources
 
     # Check if installation is present | -f for file, -d for folder
-    if [[ ! -f /opt/stash-linux ]]; then
+    if [[ ! -f "/opt/${APP}" ]]; then
         msg_error "No ${APP} Installation Found!"
         exit
     fi
 
     # Crawling the new version and checking whether an update is required
-    RELEASE=$(curl -fsSL [RELEASE_URL] | [PARSE_RELEASE_COMMAND])
-    if [[ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ]] || [[ ! -f /opt/${APP}_version.txt ]]; then
-        msg_info "Updating $APP"
+    RELEASE=$(curl -fsSL https://api.github.com/repos/stashapp/stash/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
+    if [[ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ]] || [[ ! -f "/opt/${APP}_version.txt" ]]; then
+        msg_info "Updating ${APP} to v${RELEASE}"
 
         # Stopping Services
         msg_info "Stopping $APP"
-        systemctl stop [SERVICE_NAME]
+        systemctl stop "${APP}.service"
         msg_ok "Stopped $APP"
 
         # Creating Backup
         msg_info "Creating Backup"
-        tar -czf "/opt/${APP}_backup_$(date +%F).tar.gz" [IMPORTANT_PATHS]
+        tar -czf "/opt/${APP}_backup_$(date +%F).tar.gz" "/opt/${APP}"
         msg_ok "Backup Created"
 
         # Execute Update
         msg_info "Updating $APP to v${RELEASE}"
-        [UPDATE_COMMANDS]
+        wget -q "https://github.com/stashapp/stash/releases/download/v${RELEASE}/stash-linux"
+        msg_ok "Download complete"
+        mv "./stash-linux" "/opt/${APP}" && chmod +x "/opt/${APP}"
         msg_ok "Updated $APP to v${RELEASE}"
 
         # Starting Services
         msg_info "Starting $APP"
-        systemctl start [SERVICE_NAME]
+        systemctl start "${APP}.service"
         sleep 2
         msg_ok "Started $APP"
 
         # Cleaning up
-        msg_info "Cleaning Up"
-        rm -rf [TEMP_FILES]
-        msg_ok "Cleanup Completed"
+        #msg_info "Cleaning Up"
+        #rm -rf [TEMP_FILES]
+        #msg_ok "Cleanup Completed"
 
         # Last Action
-        echo "${RELEASE}" >/opt/${APP}_version.txt
+        echo "${RELEASE}" >"/opt/${APP}_version.txt"
         msg_ok "Update Successful"
     else
         msg_ok "No update required. ${APP} is already at v${RELEASE}"
