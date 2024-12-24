@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-#source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
-# shellcheck disable=SC1090
-source <(curl -s https://raw.githubusercontent.com/stormvansoldt/ProxmoxVE/refs/heads/stashapp/misc/build.func)
+source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
 # Copyright (c) 2021-2024 community-scripts ORG
 # Author: stormvansoldt
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-# Source: https://github.com/stashapp/stash/
+# https://github.com/stashapp/stash/
 
 # App Default Values
 APP="stash"
@@ -74,9 +72,7 @@ function update_script() {
         msg_ok "Started $APP"
 
         # Cleaning up
-        #msg_info "Cleaning Up"
-        #rm -rf [TEMP_FILES]
-        #msg_ok "Cleanup Completed"
+        #Nothing to clean up :)
 
         # Last Action
         echo "${RELEASE}" >"/opt/${APP}_version.txt"
