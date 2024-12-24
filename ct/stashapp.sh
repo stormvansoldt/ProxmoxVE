@@ -5,24 +5,24 @@ source <(curl -s https://raw.githubusercontent.com/stormvansoldt/ProxmoxVE/refs/
 # Copyright (c) 2021-2024 community-scripts ORG
 # Author: stormvansoldt
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-# Source: [SOURCE_URL]
+# Source: https://github.com/stashapp/stash/
 
 # App Default Values
-APP="[APP_NAME]"
+APP="stash"
 # Name of the App (e.g. Google, Adventurelog, Apache-Guacamole"
-TAGS="[TAGS]"
+TAGS="media"
 # Tags for Proxmox VE, maximum 2 pcs., no spaces allowed, separated by a semicolon ; (e.g. database | adblock;dhcp) 
-var_cpu="[CPU]"
+var_cpu="2"
 # Number of Cores (1-X) (e.g. 4) - default are 2
-var_ram="[RAM]"
+var_ram="2048"
 # Amount of used RAM in MB (e.g. 2048 or 4096)
-var_disk="[DISK]"
+var_disk="8"
 # Amount of used Disk Space in GB (e.g. 4 or 10)
-var_os="[OS]"
+var_os="debian"
 # Default OS (e.g. debian, ubuntu, alpine)
-var_version="[VERSION]"
+var_version="12"
 # Default OS version (e.g. 12 for debian, 24.04 for ubuntu, 3.20 for alpine)
-var_unprivileged="[UNPRIVILEGED]"
+var_unprivileged="1"
 # 1 = unprivileged Container, 0 = privileged Container
 
 # App Output & Base Settings
@@ -64,7 +64,7 @@ function update_script() {
         msg_info "Updating $APP to v${RELEASE}"
         wget -q "https://github.com/stashapp/stash/releases/download/v${RELEASE}/stash-linux"
         msg_ok "Download complete"
-        mv "./stash-linux" "/opt/${APP}" && chmod +x "/opt/${APP}"
+        mv stash-linux "/opt/${APP}" && chmod +x "/opt/${APP}"
         msg_ok "Updated $APP to v${RELEASE}"
 
         # Starting Services
