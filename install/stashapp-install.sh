@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Copyright (c) 2021-2024 community-scripts ORG
-# Author: stormvansoldt
+# Author: Storm Van Soldt (stormvansoldt)
 # License: MIT
-# Source: [SOURCE_URL]
+# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
 # Import Functions and Setup
-source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
+source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
 verb_ip6
 catch_errors
@@ -25,34 +25,30 @@ $STD apt-get install -y \
 msg_ok "Installed Dependencies"
 
 # Setup App
-msg_info "Downloading ${APPLICATION}..."
+msg_info "Installing Stash"
 RELEASE=$(curl -fsSL https://api.github.com/repos/stashapp/stash/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
-wget -q "https://github.com/stashapp/stash/releases/download/v${RELEASE}/${APPLICATION}"
-msg_ok "Download complete"
-mv "${APPLICATION}/" "/opt/${APPLICATION}" && chmod +x "/opt/${APPLICATION}"
+wget -q "https://github.com/stashapp/stash/releases/download/v${RELEASE}/stash-linux"
+mv stash-linux /opt/stash && chmod +x /opt/stash
 msg_info "Creating version file"
-echo "${RELEASE}" > "/opt/${APPLICATION}_version.txt"
-msg_ok "${APPLICATION} has been installed in /opt"
+echo "${RELEASE}" >"/opt/stash_version.txt"
+msg_ok "Stash has been installed in /opt"
 
 # Creating Service (if needed)
 msg_info "Creating Service"
-cat <<EOF >"/etc/systemd/system/${APPLICATION}.service"
+cat <<EOF >"/etc/systemd/system/stash.service"
 [Unit]
-Description=${APPLICATION} Service
+Description=Stash App Service
 After=network.target
 
 [Service]
-ExecStart=/opt/${APPLICATION}
+ExecStart=/opt/stash
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable -q --now "${APPLICATION}.service"
+systemctl enable -q --now stash.service
 msg_ok "Created and enabled service"
-
-motd_ssh
-customize
 
 # Cleanup
 msg_info "Cleaning up"
