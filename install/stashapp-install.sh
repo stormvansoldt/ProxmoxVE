@@ -20,7 +20,8 @@ $STD apt-get install -y \
   curl \
   sudo \
   mc \
-  wget
+  wget \
+  ffmpeg
 msg_ok "Installed Dependencies"
 
 # Setup App
@@ -28,9 +29,9 @@ msg_info "Downloading ${APPLICATION}..."
 RELEASE=$(curl -fsSL https://api.github.com/repos/stashapp/stash/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 wget -q "https://github.com/stashapp/stash/releases/download/v${RELEASE}/${APPLICATION}"
 msg_ok "Download complete"
+mv "${APPLICATION}/" "/opt/${APPLICATION}" && chmod +x "/opt/${APPLICATION}"
 msg_info "Creating version file"
 echo "${RELEASE}" > "/opt/${APPLICATION}_version.txt"
-mv "${APPLICATION}/" "/opt/${APPLICATION}" && chmod +x "/opt/${APPLICATION}"
 msg_ok "${APPLICATION} has been installed in /opt"
 
 # Creating Service (if needed)
